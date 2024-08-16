@@ -1,0 +1,1 @@
+This JSON includes 10 blog entries for each category (JavaScript, React, API, CSS, Node.js), with fields for title, description, author, date, and category.

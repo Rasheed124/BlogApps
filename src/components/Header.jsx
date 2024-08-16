@@ -26,63 +26,14 @@ const Header = () => {
             <nav id="navbar" className="navbar">
               <ul>
                 <li>
-                  <Link href="index.html">Blog</Link>
+                  <Link to="/">Blog</Link>
+                </li>
+              
+                <li>
+                  <Link to="#">About</Link>
                 </li>
                 <li>
-                  <Link href="single-post.html">Single Post</Link>
-                </li>
-                <li className="dropdown">
-                  <Link href="category.html">
-                    <span>Categories</span>{" "}
-                    <i className="bi bi-chevron-down dropdown-indicator"></i>
-                  </Link>
-                  <ul>
-                    <li>
-                      <Link href="search-result.html">Search Result</Link>
-                    </li>
-                    <li>
-                      <Link href="#">Drop Down 1</Link>
-                    </li>
-                    <li className="dropdown">
-                      <Link href="#">
-                        <span>Deep Drop Down</span>{" "}
-                        <i className="bi bi-chevron-down dropdown-indicator"></i>
-                      </Link>
-                      <ul>
-                        <li>
-                          <Link href="#">Deep Drop Down 1</Link>
-                        </li>
-                        <li>
-                          <Link href="#">Deep Drop Down 2</Link>
-                        </li>
-                        <li>
-                          <Link href="#">Deep Drop Down 3</Link>
-                        </li>
-                        <li>
-                          <Link href="#">Deep Drop Down 4</Link>
-                        </li>
-                        <li>
-                          <Link href="#">Deep Drop Down 5</Link>
-                        </li>
-                      </ul>
-                    </li>
-                    <li>
-                      <Link href="#">Drop Down 2</Link>
-                    </li>
-                    <li>
-                      <Link href="#">Drop Down 3</Link>
-                    </li>
-                    <li>
-                      <Link href="#">Drop Down 4</Link>
-                    </li>
-                  </ul>
-                </li>
-
-                <li>
-                  <Link href="about.html">About</Link>
-                </li>
-                <li>
-                  <Link href="contact.html">Contact</Link>
+                  <Link to="#">Contact</Link>
                 </li>
               </ul>
             </nav>

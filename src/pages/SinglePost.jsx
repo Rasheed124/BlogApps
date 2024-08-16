@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import landscapeImage from "../assets/img/post-landscape-5.jpg";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import { toast } from "react-toastify";

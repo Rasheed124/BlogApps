@@ -21,11 +21,11 @@
     {
       "id": "5",
       "title": "JavaScript Array Methods",
-      "description": "A guide to using JavaScript array methods for efficient data manipulation.",
       "author": "Michael Brown",
-      "date": "2024-08-04",
+      "image": "post-slide",
+      "description": "A guide to using JavaScript array methods for efficient data manipulation.",
       "category": "JavaScript",
-      "image": "post-slide"
+      "date": "2024-08-04"
     }
   ]
 }

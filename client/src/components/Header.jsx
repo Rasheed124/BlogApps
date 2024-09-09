@@ -1,15 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { Link, useLocation } from "react-router-dom";
 
 import Button from "react-bootstrap/Button";
+import { AppContext } from "../context/AppContext";
 
 const Header = () => {
-  // useEffect(() => {
-  //   fetch("http://localhost:4000/api/profile", {
-  //     credentials: "include",
-  //   });
-  // }, []);
+   const {  userInfo, setUserInfo} = useContext(AppContext)
+  useEffect(() => {
+    fetch("http://localhost:4000/api/profile", {
+      credentials: "include",
+    }).then((response) => {
+      response.json().then((userInfo) => {
+        setUsername(userInfo.username);
+      });
+    });
+  }, []);
+
+  function logout() {
+    fetch("http://localhost:4000/api/logout", {
+      credentials: "include",
+      method: "POST"
+    });
+    setUsername(null)
+  }
+
+  const username =  userInfo?.username;
 
   return (
     <>
@@ -41,9 +57,27 @@ const Header = () => {
             {/* <!-- .navbar --> */}
 
             <div className="position-relative">
-              <Link to={"/register"}>
-                <Button variant="primary">Register</Button>
-              </Link>
+              {username && (
+                <>
+                  <Link to={"/create"} style={{ marginRight: "20px" }}>
+                    <Button variant="primary">Create new post</Button>
+                  </Link>
+                  <Link onClick={logout}>
+                    <Button variant="primary">Logout</Button>
+                  </Link>
+                </>
+              )}
+
+              {!username && (
+                <>
+                  <Link to={"/register"} style={{ marginRight: "20px" }}>
+                    <Button variant="primary">Register</Button>
+                  </Link>
+                  <Link to={"/login"} >
+                    <Button variant="primary">Login</Button>
+                  </Link>
+                </>
+              )}
 
               {/* <!-- ======= Search Form ======= --> */}
               <div className="search-form-wrap js-search-form-wrap">

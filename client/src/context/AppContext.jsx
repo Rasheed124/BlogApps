@@ -67,8 +67,10 @@ const ContextProvider = ({ children }) => {
   //   setAllBlogs(filteredBlogs);
   // };
 
+  const [userInfo, setUserInfo] = useState({})
+
   const contextValue = {
-    username: "Ade"
+    userInfo, setUserInfo
   };
   return (
     <AppContext.Provider value={contextValue}>{children}</AppContext.Provider>

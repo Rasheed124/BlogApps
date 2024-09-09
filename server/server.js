@@ -19,7 +19,10 @@ dotenv.config();
 const { dbConnection } = require("./config/db");
 
 app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
+
 app.use(express.json());
+
+// for setting credentials
 app.use(cookieParser());
 
 // Connect to database
@@ -49,9 +52,6 @@ app.post("/api/register", async (request, response) => {
   }
 });
 
-
-
-
 app.post("/api/login", async (request, response) => {
   const { username, password } = request.body;
 
@@ -59,24 +59,35 @@ app.post("/api/login", async (request, response) => {
   const isPasswordOk = bcrypt.compareSync(password, userDoc.password);
 
   if (isPasswordOk) {
-
-    response.status(200).json("credentials ");
-
-    // jwt.sign({ username, id: userDoc._id }, secret, {}, (err, token) => {
-    //   if (err) throw err;
-    //   response.cookie("token", token).json("ok");
-    // });
-
-    // response.json("Correct password");
+    jwt.sign({ username, id: userDoc._id }, secret, {}, (err, token) => {
+      if (err) throw err;
+      response.cookie("token", token).status(200).json({
+        id: userDoc._id,
+        username 
+      }); 
+    });
   } else {
     response.status(400).json("wrong credentials");
   }
 });
 
-// app.post("/api/profile", (request, response) => {
-  
+app.get("/api/profile", (request, response) => {
+  const { token } = request.cookies;
 
-//   response.json(request.cookies);
-// });
+  jwt.verify(token, secret, {}, (err, info) => {
+    if (err) throw err;
+    response.json(info);
+
+    console.log(info);
+  });
+
+  // response.json(request.cookies);
+});
+
+app.post("/api/logout", (request, response) => {
+  // Clear the token by setting its expiration date in the past
+  response.cookie("token", "").status(200).json("ok");
+});
+
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

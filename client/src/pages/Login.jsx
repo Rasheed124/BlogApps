@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { AppContext } from "../context/AppContext";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const {   setUserInfo} = useContext(AppContext)
+
 
 
   const navigate = useNavigate(); 
@@ -22,10 +26,14 @@ const Login = () => {
           username,
           password,
         }),
+        credentials: 'include',
       });
 
       if (response.ok) {
         alert("Login successful");
+        response.json().then(userInfo => {
+          setUserInfo(userInfo)
+        })
         navigate('/')
       } else {
         alert("Wrong credentials");

@@ -15,14 +15,6 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-       // await fetch("http://localhost:4000/api/register", {
-    //   method: "POST",
-    //   body: JSON.stringify({ username, email, password }),
-    //   headers: { "Content-Type": "application/json" },
-    // });
-
-    // console.log({ username, email, password });
   
     try {
       const response = await fetch("http://localhost:4000/api/register", {

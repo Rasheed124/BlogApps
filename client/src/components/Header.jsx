@@ -6,13 +6,14 @@ import Button from "react-bootstrap/Button";
 import { AppContext } from "../context/AppContext";
 
 const Header = () => {
-   const {  userInfo, setUserInfo} = useContext(AppContext)
+  const { userInfo, setUserInfo } = useContext(AppContext);
+
   useEffect(() => {
     fetch("http://localhost:4000/api/profile", {
       credentials: "include",
     }).then((response) => {
       response.json().then((userInfo) => {
-        setUsername(userInfo.username);
+        setUserInfo(userInfo.username);
       });
     });
   }, []);
@@ -20,12 +21,12 @@ const Header = () => {
   function logout() {
     fetch("http://localhost:4000/api/logout", {
       credentials: "include",
-      method: "POST"
+      method: "POST",
     });
-    setUsername(null)
+    setUserInfo(null);
   }
 
-  const username =  userInfo?.username;
+  const username = userInfo?.username;
 
   return (
     <>
@@ -59,7 +60,7 @@ const Header = () => {
             <div className="position-relative">
               {username && (
                 <>
-                  <Link to={"/create"} style={{ marginRight: "20px" }}>
+                  <Link to={"/add-blog"} style={{ marginRight: "20px" }}>
                     <Button variant="primary">Create new post</Button>
                   </Link>
                   <Link onClick={logout}>
@@ -73,7 +74,7 @@ const Header = () => {
                   <Link to={"/register"} style={{ marginRight: "20px" }}>
                     <Button variant="primary">Register</Button>
                   </Link>
-                  <Link to={"/login"} >
+                  <Link to={"/login"}>
                     <Button variant="primary">Login</Button>
                   </Link>
                 </>

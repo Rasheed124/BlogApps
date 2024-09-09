@@ -2,47 +2,47 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 import uploadIcon from "../assets/img/upload_area.svg";
 
-const AddBlog = ({ addBlogSubmit }) => {
+const AddBlog = () => {
   const navigate = useNavigate();
 
   // const {id} = useParams()
 
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
-  const [description, setDescription] = useState("");
+  const [content, setContent] = useState("");
   const [category, setCategory] = useState("");
   const [image, setImage] = useState("post-slide");
   const [date, setDate] = useState("");
 
-  // const imageUploadHandler = (e) => {
-  //   setImage(e.target.files[0]);
-  // };
-
-  // const imageUploadHandler = (e) => {
-  //   const file = e.target.files[0];
-  //   const reader = new FileReader();
-  //   reader.readAsDataURL(file);
-  //   reader.onloadend = () => {
-  //     setImage(reader.result); // This is the base64 string
-  //   };
-  // };
-
   const handleSubmit = (event) => {
-    event.preventDefault();
-    const blogData = {
-      title,
-      author,
-      image,
-      description,
-      category,
-      date,
-    };
+    const data = new FormData();
+    data.set("title", title);
+    data.set("author", author);
+    data.set("image", image[0]);
+    data.set("content", content);
+    data.set("category", category);
+    data.set("date", date);
 
-    // console.log(blogData);
+    fetch("http://localhost:4000/api/post", {
+      method: "POST",
+      body: data,
+    });
+
+    // const blogData = {
+    //   title,
+    //   author,
+    //   image,
+    //   content,
+    //   category,
+    //   date,
+    // };
 
     addBlogSubmit(blogData);
 
@@ -50,6 +50,35 @@ const AddBlog = ({ addBlogSubmit }) => {
 
     return navigate("/");
   };
+
+  let quillModules = {
+    toolbar: [
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [
+        { list: "ordered" },
+        { list: "bullet" },
+        { indent: "-1" },
+        { indent: "+1" },
+      ],
+      ["link", "image"],
+      ["clean"],
+    ],
+  };
+
+  let quillFormats = [
+    "header",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "list",
+    "bullet",
+    "indent",
+    "link",
+    "image",
+  ];
 
   return (
     <>
@@ -79,6 +108,15 @@ const AddBlog = ({ addBlogSubmit }) => {
                   />
                 </Form.Group>
 
+                <Form.Group controlId="formFileSm" className="mb-3">
+                  <Form.Label>Upload image</Form.Label>
+                  <Form.Control
+                    type="file"
+                    size="sm"
+                    onChange={(e) => setImage(e.target.files)}
+                  />
+                </Form.Group>
+                {/* 
                 <Form.Group className="mb-3" controlId="formBasicDescription">
                   <Form.Label>Add Description</Form.Label>
                   <Form.Control
@@ -89,7 +127,19 @@ const AddBlog = ({ addBlogSubmit }) => {
                     as="textarea"
                     rows={5}
                   />
+                </Form.Group> */}
+
+                <Form.Group className="mb-3" controlId="formBasicDate">
+                  <Form.Label>Add Content</Form.Label>
+
+                  <ReactQuill
+                    value={content}
+                    onChange={(newValue) => setContent(newValue)}
+                    modules={quillModules}
+                    formats={quillFormats}
+                  />
                 </Form.Group>
+
                 <Form.Group className="mb-3" controlId="formBasicCategory">
                   <Form.Label>Add Category</Form.Label>
                   <Form.Control
@@ -114,34 +164,6 @@ const AddBlog = ({ addBlogSubmit }) => {
                     Your date should be in this format - 2024-08-04
                   </Form.Text>
                 </Form.Group>
-
-
-                {/* IGNORE */}
-                
-                {/* <Form.Group className="mb-3" controlId="formBasicDate">
-                  <Form.Label>Upload Image</Form.Label>
-
-                  <div className="relative">
-                    <Form.Label>
-                      <img
-                        src={image ? URL.createObjectURL(image) : uploadIcon}
-                        alt="image upload"
-                        style={{maxWidth: "100px"}}
-                      />
-                    </Form.Label>
-                    <Form.Control
-                      type="file"
-                      className="none"
-                      required
-                      onChange={imageUploadHandler}
-                    />
-                  </div>
-                </Form.Group> */}
-{/* 
-                <Form.Group className="mb-3" controlId="formFile">
-                  <Form.Label>Add Image</Form.Label>
-                  <Form.Control type="file" onChange={imageUploadHandler} />
-                </Form.Group> */}
 
                 <div
                   style={{ display: "flex", justifyContent: "space-between" }}

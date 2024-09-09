@@ -1,54 +1,101 @@
-import React, { useContext, useState } from "react";
-
+import React from "react";
 import { Link } from "react-router-dom";
 
-import hero2Image from "../assets/img/post-slide-2.jpg";
-import { AppContext } from "../context/AppContext";
-import BlogList from "../components/BlogList";
-import BlogListing from "../components/BlogListing";
-const Home = () => {
-  const { allBlogs } = useContext(AppContext);
+import { Navigation, Pagination } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
+import { IoIosArrowBack } from "react-icons/io";
+import { IoIosArrowForward } from "react-icons/io";
+
+import hero2Image from "../assets/img/post-slide-2.jpg";
+import postSlide from "../assets/img/post-slide-1.jpg";
+
+const Home = () => {
   return (
     <>
       <main id="main">
         {/* <!-- ======= Hero Slider Section ======= --> */}
-        <section id="hero-slider" className="hero-slider">
+        <section
+          id="hero-slider"
+          className="hero-slider"
+          style={{ marginTop: "80px" }}
+        >
           <div className="container-md">
             <div className="row">
               <div className="col-12">
-                <div className="swiper sliderFeaturedPosts">
-                  <div className="swiper-wrapper">
-                    {allBlogs.map((blog) => (
-                      // <div key={blog.id} class="swiper-slide">
-                      //   <Link
-                      //     to={'/'}
-                      //     class="img-bg d-flex align-items-end"
-                      //     style={{backgroundImage: `url(${hero2Image})`}}
-                      //   >
-                      //     <div class="img-bg-inner">
-                      //       <h2>
-                      //         {blog.title}
-                      //       </h2>
-                      //       <p>
-                      //       {blog.description}
-                      //       </p>
-                      //     </div>
-                      //   </Link>
-                      // </div>
+                {/* Swiper Slider */}
+                <Swiper
+                  modules={[Navigation, Pagination]}
+                  navigation={{
+                    nextEl: ".custom-swiper-button-next",
+                    prevEl: ".custom-swiper-button-prev",
+                  }}
+                  pagination={{ clickable: true }}
+                  spaceBetween={50}
+                  slidesPerView={1}
+                  className="swiper-container"
+                >
+                  <SwiperSlide>
+                    <Link
+                      to="/single-post.html"
+                      className="img-bg d-flex align-items-end"
+                      style={{
+                        backgroundImage: `url(${postSlide})`,
+                        backgroundSize: "cover",
+                      }}
+                    >
+                      <div className="img-bg-inner">
+                        <h2>
+                          The Best Homemade Masks for Face (Keep the Pimples
+                          Away)
+                        </h2>
+                        <p>
+                          Lorem ipsum dolor sit amet, consectetur adipisicing
+                          elit. Quidem neque est mollitia! Beatae minima
+                          assumenda repellat harum vero, officiis ipsam magnam
+                          obcaecati cumque maxime inventore repudiandae quidem
+                          necessitatibus rem atque.
+                        </p>
+                      </div>
+                    </Link>
+                  </SwiperSlide>
 
-                      <BlogList key={blog.id} blog={blog} />
-                    ))}
-                  </div>
-                  <div className="custom-swiper-button-next">
-                    <span className="bi-chevron-right"></span>
-                  </div>
-                  <div className="custom-swiper-button-prev">
-                    <span className="bi-chevron-left"></span>
-                  </div>
+                  <SwiperSlide>
+                    <Link
+                      to="/single-post.html"
+                      className="img-bg d-flex align-items-end"
+                      style={{
+                        backgroundImage: `url(${hero2Image})`,
+                        backgroundSize: "cover",
+                      }}
+                    >
+                      <div className="img-bg-inner">
+                        <h2>10 Tips for Healthy Glowing Skin</h2>
+                        <p>
+                          Lorem ipsum dolor sit amet, consectetur adipisicing
+                          elit. Quidem neque est mollitia! Beatae minima
+                          assumenda repellat harum vero, officiis ipsam magnam
+                          obcaecati cumque maxime inventore repudiandae quidem
+                          necessitatibus rem atque.
+                        </p>
+                      </div>
+                    </Link>
+                  </SwiperSlide>
+                </Swiper>
 
-                  <div className="swiper-pagination"></div>
+                {/* Navigation Buttons */}
+                {/* <div className="swiper-button-prev">
+                <IoIosArrowBack />
                 </div>
+                <div className="swiper-button-next">
+                <IoIosArrowForward />
+                </div> */}
+
+                {/* Swiper Pagination */}
+                <div className="swiper-pagination"></div>
               </div>
             </div>
           </div>
@@ -61,21 +108,9 @@ const Home = () => {
             <div className="row g-5">
               <div className="col-lg-12">
                 <div className="row g-5">
-                  <div className="col-lg-4 border-start custom-border">
-                    {allBlogs.map((blog) => (
-                      <BlogListing key={blog.id} blog={blog} />
-                    ))}
-                  </div>
-                  <div className="col-lg-4 border-start custom-border">
-                    {allBlogs.map((blog) => (
-                      <BlogListing key={blog.id} blog={blog} />
-                    ))}
-                  </div>
-                  <div className="col-lg-4 border-start custom-border">
-                    {allBlogs.map((blog) => (
-                      <BlogListing key={blog.id} blog={blog} />
-                    ))}
-                  </div>
+                  <div className="col-lg-4 border-start custom-border"></div>
+                  <div className="col-lg-4 border-start custom-border"></div>
+                  <div className="col-lg-4 border-start custom-border"></div>
                 </div>
               </div>
             </div>

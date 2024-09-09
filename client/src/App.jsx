@@ -7,16 +7,18 @@ import Contact from "./pages/Contact";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import NotFound from "./pages/NotFound";
-import SinglePost from "./pages/SinglePost";
-import AddBlog from "./pages/AddBlog";
-import { AppContext } from "./context/AppContext";
-import EditBlog from "./pages/EditBlog";
+// import SinglePost from "./pages/SinglePost";
+// import AddBlog from "./pages/AddBlog";
+// import { AppContext } from "./context/AppContext";
+// import EditBlog from "./pages/EditBlog";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
 
 const App = () => {
-  const { addBlog, updateBlog, deleteBlog } = useContext(AppContext);
+  // const { addBlog, updateBlog, deleteBlog } = useContext(AppContext);
   return (
     <>
       <BrowserRouter>
@@ -24,7 +26,9 @@ const App = () => {
         <ToastContainer />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          {/* <Route
             path="/single-post/:id"
             element={<SinglePost deleteBlog={deleteBlog} />}
           />
@@ -36,7 +40,7 @@ const App = () => {
             path="/edit-blog/:id"
             loader={addBlog}
             element={<EditBlog updateBlogSubmit={updateBlog} />}
-          />
+          /> */}
 
           <Route path="*" element={<NotFound />} />
         </Routes>

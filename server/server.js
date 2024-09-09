@@ -78,7 +78,6 @@ app.get("/api/profile", (request, response) => {
     if (err) throw err;
     response.json(info);
 
-    console.log(info);
   });
 
   // response.json(request.cookies);

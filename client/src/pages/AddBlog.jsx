@@ -12,16 +12,16 @@ import uploadIcon from "../assets/img/upload_area.svg";
 const AddBlog = () => {
   const navigate = useNavigate();
 
-  // const {id} = useParams()
-
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [content, setContent] = useState("");
   const [category, setCategory] = useState("");
-  const [image, setImage] = useState("post-slide");
+  const [image, setImage] = useState("");
   const [date, setDate] = useState("");
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
     const data = new FormData();
     data.set("title", title);
     data.set("author", author);
@@ -30,10 +30,17 @@ const AddBlog = () => {
     data.set("category", category);
     data.set("date", date);
 
-    fetch("http://localhost:4000/api/post", {
+ 
+
+
+
+    const response = await fetch("http://localhost:4000/api/post", {
       method: "POST",
       body: data,
+      
     });
+
+    
 
     // const blogData = {
     //   title,
@@ -44,11 +51,9 @@ const AddBlog = () => {
     //   date,
     // };
 
-    addBlogSubmit(blogData);
+    // toast.success("Blog Added Successfully");
 
-    toast.success("Blog Added Successfully");
-
-    return navigate("/");
+    // retur?n navigate("/");
   };
 
   let quillModules = {

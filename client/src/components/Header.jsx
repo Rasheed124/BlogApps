@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import Button from "react-bootstrap/Button";
 import { AppContext } from "../context/AppContext";
@@ -8,23 +8,26 @@ import { AppContext } from "../context/AppContext";
 const Header = () => {
   const { userInfo, setUserInfo } = useContext(AppContext);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     fetch("http://localhost:4000/api/profile", {
       credentials: "include",
     }).then((response) => {
       response.json().then((userInfo) => {
-        setUserInfo(userInfo.username);
+        setUserInfo(userInfo);
       });
     });
   }, []);
 
-  function logout() {
+  const logout = () => {
     fetch("http://localhost:4000/api/logout", {
       credentials: "include",
       method: "POST",
     });
+    navigate("/");
     setUserInfo(null);
-  }
+  };
 
   const username = userInfo?.username;
 
@@ -63,9 +66,10 @@ const Header = () => {
                   <Link to={"/add-blog"} style={{ marginRight: "20px" }}>
                     <Button variant="primary">Create new post</Button>
                   </Link>
-                  <Link onClick={logout}>
-                    <Button variant="primary">Logout</Button>
-                  </Link>
+
+                  <Button onClick={logout} variant="primary">
+                    Logout
+                  </Button>
                 </>
               )}
 

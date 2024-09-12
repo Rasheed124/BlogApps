@@ -13,7 +13,8 @@ import { IoIosArrowForward } from "react-icons/io";
 import hero2Image from "../assets/img/post-slide-2.jpg";
 import postSlide from "../assets/img/post-slide-1.jpg";
 
-import BannerPostList from "../components/BannerPostList"
+import BannerPostList from "../components/BannerPostList";
+import BlogListing from "../components/BlogListing";
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
@@ -24,6 +25,10 @@ const Home = () => {
       });
     });
   }, []);
+
+  const limitedPost = posts.slice(0, 3);
+
+
 
   return (
     <>
@@ -49,41 +54,13 @@ const Home = () => {
                   slidesPerView={1}
                   className="swiper-container"
                 >
-                  <SwiperSlide>
-                    <Link
-                      to="/single-post.html"
-                      className="img-bg d-flex align-items-end"
-                      style={{
-                        backgroundImage: `url(${postSlide})`,
-                        backgroundSize: "cover",
-                      }}
-                    >
-                      {posts.length > 0 &&
-                        posts.map((post, index) => <BannerPostList key={index} {...post} />)}
-                    </Link>
-                  </SwiperSlide>
-
-                  <SwiperSlide>
-                    <Link
-                      to="/single-post.html"
-                      className="img-bg d-flex align-items-end"
-                      style={{
-                        backgroundImage: `url(${hero2Image})`,
-                        backgroundSize: "cover",
-                      }}
-                    >
-                      <div className="img-bg-inner">
-                        <h2>10 Tips for Healthy Glowing Skin</h2>
-                        <p>
-                          Lorem ipsum dolor sit amet, consectetur adipisicing
-                          elit. Quidem neque est mollitia! Beatae minima
-                          assumenda repellat harum vero, officiis ipsam magnam
-                          obcaecati cumque maxime inventore repudiandae quidem
-                          necessitatibus rem atque.
-                        </p>
-                      </div>
-                    </Link>
-                  </SwiperSlide>
+                  {limitedPost.length > 0 &&
+                    limitedPost.map((post, index) => (
+                      <SwiperSlide>
+                        <BannerPostList key={index} {...post} />
+                      </SwiperSlide>
+                    ))}
+                  {/* </Link> */}
                 </Swiper>
 
                 {/* Navigation Buttons */}
@@ -108,9 +85,10 @@ const Home = () => {
             <div className="row g-5">
               <div className="col-lg-12">
                 <div className="row g-5">
-                  <div className="col-lg-4 border-start custom-border"></div>
-                  <div className="col-lg-4 border-start custom-border"></div>
-                  <div className="col-lg-4 border-start custom-border"></div>
+                  {posts.length > 0 &&
+                    posts.map((post, index) => (
+                      <BlogListing key={index} {...post} />
+                    ))}
                 </div>
               </div>
             </div>

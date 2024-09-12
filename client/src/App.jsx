@@ -17,6 +17,8 @@ import "react-toastify/dist/ReactToastify.css";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import AddBlog from "./pages/AddBlog";
+import SinglePost from "./pages/SinglePost";
+import EditBlog from "./pages/EditBlog";
 
 const App = () => {
   // const { addBlog, updateBlog, deleteBlog } = useContext(AppContext);
@@ -33,16 +35,14 @@ const App = () => {
           />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          {/* <Route
+        <Route
             path="/single-post/:id"
-            element={<SinglePost deleteBlog={deleteBlog} />}
+            element={<SinglePost />}
           />
-       
           <Route
             path="/edit-blog/:id"
-            loader={addBlog}
-            element={<EditBlog updateBlogSubmit={updateBlog} />}
-          /> */}
+            element={<EditBlog />}
+          /> 
 
           <Route path="*" element={<NotFound />} />
         </Routes>

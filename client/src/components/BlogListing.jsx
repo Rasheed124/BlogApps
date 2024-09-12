@@ -1,30 +1,40 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const BlogListing = ({ blog }) => {
-  const imageUrl = `/src/assets/img/${blog.image}-${blog.id}.jpg`;
+import { formatISO9075 } from "date-fns";
 
-  const MAX_LENGTH = 200; 
-
-  const shortDescription =
-  blog.description.length > MAX_LENGTH
-    ? `${blog.description.substring(0, MAX_LENGTH)}...`
-    : blog.description;
-  
+const BlogListing = ({
+  _id,
+  title,
+  author,
+  content,
+  category,
+  cover,
+  createdAt,
+}) => {
   return (
     <>
-      <div className="post-entry-1">
-        <Link to={`/single-post/${blog.id}`}>
-          <img src={imageUrl} className="img-fluid" alt={`${blog.title}`} />
-        </Link>
-        <div className="post-meta">
-          <span className="date">{blog.catgory}</span>{" "}
-          <span className="mx-1">&bullet;</span> <span>{blog.date}</span>
+      <div className="col-lg-4 border-start custom-border">
+        <div className="post-entry-1">
+          <Link to={`/single-post/${_id}`}>
+            <img
+              src={`http://localhost:4000/${cover}`}
+              className="img-fluid"
+              alt={`${title}`}
+            />
+          </Link>
+          <div className="post-meta">
+            <span className="date">{category}</span>{" "}
+            <span className="mx-1">&bullet;</span>{" "}
+            <span>{formatISO9075(new Date(createdAt))}</span>
+            <span className="author mb-3 d-block">{author?.username}</span>
+          </div>
+          <h2>
+            <Link to={`/single-post/${_id}`}>{title}</Link>
+          </h2>
+
+          <div dangerouslySetInnerHTML={{ __html: content }} />
         </div>
-        <h2>
-          <Link to={`/single-post/${blog.id}`}>{blog.title}</Link>
-        </h2>
-        <p>{shortDescription}</p>
       </div>
     </>
   );

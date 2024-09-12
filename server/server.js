@@ -16,12 +16,16 @@ const secret = "bdcjhsvdukonjosyuwebciwbewoie";
 const User = require("./models/User");
 const Post = require("./models/Post");
 const { dbConnection } = require("./config/db");
+const { request } = require("http");
 
 dotenv.config();
 
 app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
 app.use(express.json());
 app.use(cookieParser());
+
+// app.use(express.static(''))
+app.use("/uploads", express.static(__dirname + "/uploads"));
 
 // Connect to database
 dbConnection();
@@ -149,6 +153,86 @@ app.get("/api/post", async (request, response) => {
       .sort({ createdAt: -1 })
       .limit(20)
   );
+});
+app.get("/api/post/:id", async (request, response) => {
+  const { id } = request.params;
+
+  const postDoc = await Post.findById(id).populate("author", ["username"]);
+
+  // console.log(id);
+
+  response.json(postDoc);
+});
+
+app.put(
+  "/api/post",
+  uploadMiddleware.single("image"),
+  async (request, response) => {
+    let newPath = null;
+
+    //  response.json(request.file);
+
+    if (request.file) {
+      const { originalname, path } = request.file;
+      const parts = originalname.split(".");
+      const ext = parts[parts.length - 1];
+      const newPath = `${path}.${ext}`;
+
+      fs.renameSync(path, newPath);
+    }
+
+    const { token } = request.cookies;
+
+    if (!token) {
+      return response.status(401).json({ error: "No token provided" });
+    }
+
+    jwt.verify(token, secret, async (err, info) => {
+      if (err) {
+        return response.status(403).json({ error: "Invalid token" });
+      }
+
+      //   // Get Post Doc
+      const { id, title, content, category, cover } = request.body;
+
+      const postDOc = await Post.findById(id);
+
+      const isAuthor =
+        JSON.stringify(postDOc.author) === JSON.stringify(info.id);
+
+      if (!isAuthor) {
+        return response.status(400).json({ error: "You are not the author" });
+      }
+
+      // Update post fields
+      postDOc.title = title;
+      postDOc.content = content;
+      postDOc.category = category;
+      postDOc.cover = newPath ? newPath : postDOc.cover;
+
+      // Save the updated post
+      await postDOc.save();
+
+      response.json(postDOc);
+    });
+  }
+);
+
+app.delete("/api/post/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const post = await Post.findByIdAndDelete(id);
+
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    res.status(200).json({ message: "Post deleted successfully" });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "An error occurred while deleting the post" });
+  }
 });
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

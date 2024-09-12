@@ -1,30 +1,31 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const BannerPostList = ({
-  title,
-  author,
-  content,
-  category,
-  cover,
-}) => {
-  // const imageUrl = `/src/assets/img/${blog.image}-${blog.id}.jpg`;
+const BannerPostList = ({ _id,  title, author, content, category, cover }) => {
+  const sanitizePath = (path) => {
+    if (path && typeof path === "string") {
+      return path.replace(/[^a-zA-Z0-9/.\-_]/g, "/");
+    }
+    return path;
+  };
 
-  // const MAX_LENGTH = 100;
-
-  // const shortDescription =
-  // blog.description.length > MAX_LENGTH
-  //   ? `${blog.description.substring(0, MAX_LENGTH)}...`
-  //   : blog.description;
-
+  const sourceBg = `http://localhost:4000/${sanitizePath(cover)}`;
   return (
     <>
-      <div className="img-bg-inner">
-        <h2>{title}</h2>
-        <p>{content}</p>
-        <p>{author?.username}</p>
-        {/* <p>{format(new Date(createdAt), 'MMM d')}</p> */}
-      </div>
+      <Link
+        to={`/single-post/${_id}`}
+        className="img-bg d-flex align-items-end"
+        style={{
+          backgroundImage: `url(${sourceBg})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <div className="img-bg-inner">
+          <h2>{title}</h2>
+          <p>{author?.username}</p>
+        </div>
+      </Link>
     </>
   );
 };

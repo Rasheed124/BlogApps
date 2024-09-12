@@ -5,72 +5,11 @@ import { createContext } from "react";
 export const AppContext = createContext();
 
 const ContextProvider = ({ children }) => {
-  // const [allBlogs, setAllBlogs] = useState([]);
-
-
-  // useEffect(() => {
-  //   const fetchBlogs = async () => {
-  //     const apiUrl = "/api/blogs?_limit=3";
-
-  //     try {
-  //       const response = await fetch(`${apiUrl}`);
-  //       const data = await response.json();
-  //       setAllBlogs(data);
-  //     } catch (error) {
-  //       console.log("Error fetching data", error);
-  //     }
-  //   };
-
-  //   fetchBlogs();
-  // }, []);
-
-
-  // const addBlog = async (newBlog) => {
-  //   const res = await fetch("/api/blogs", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(newBlog),
-  //   });
-  //   return;
-  // };
-
-
-  // const updateBlog = async (updatedBlog) => {
-  //   const res = await fetch(`/api/blogs/${updatedBlog.id}`, {
-  //     method: "PUT",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(updatedBlog),
-  //   });
-
-  //   if (!res.ok) throw new Error("Failed to update the blog");
-
-  //   const updatedBlogs = allBlogs.map((blog) =>
-  //     blog.id === updatedBlog.id ? updatedBlog : blog
-  //   );
-
-  //   setAllBlogs(updatedBlogs);
-  // };
-
-
-  // const deleteBlog = async (id) => {
-  //   const res = await fetch(`/api/blogs/${id}`, {
-  //     method: "DELETE",
-  //   });
-  //   if (!res.ok) throw new Error("Failed to delete the blog");
-
-  //   const filteredBlogs = allBlogs.filter((blog) => blog.id !== id);
-  //   // Update the blogs data
-  //   setAllBlogs(filteredBlogs);
-  // };
-
-  const [userInfo, setUserInfo] = useState({})
+  const [userInfo, setUserInfo] = useState({});
 
   const contextValue = {
-    userInfo, setUserInfo
+    userInfo,
+    setUserInfo,
   };
   return (
     <AppContext.Provider value={contextValue}>{children}</AppContext.Provider>

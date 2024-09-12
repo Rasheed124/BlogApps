@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { Navigation, Pagination } from "swiper/modules";
@@ -13,7 +13,18 @@ import { IoIosArrowForward } from "react-icons/io";
 import hero2Image from "../assets/img/post-slide-2.jpg";
 import postSlide from "../assets/img/post-slide-1.jpg";
 
+import BannerPostList from "../components/BannerPostList"
+
 const Home = () => {
+  const [posts, setPosts] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost:4000/api/post").then((response) => {
+      response.json().then((posts) => {
+        setPosts(posts);
+      });
+    });
+  }, []);
+
   return (
     <>
       <main id="main">
@@ -47,19 +58,8 @@ const Home = () => {
                         backgroundSize: "cover",
                       }}
                     >
-                      <div className="img-bg-inner">
-                        <h2>
-                          The Best Homemade Masks for Face (Keep the Pimples
-                          Away)
-                        </h2>
-                        <p>
-                          Lorem ipsum dolor sit amet, consectetur adipisicing
-                          elit. Quidem neque est mollitia! Beatae minima
-                          assumenda repellat harum vero, officiis ipsam magnam
-                          obcaecati cumque maxime inventore repudiandae quidem
-                          necessitatibus rem atque.
-                        </p>
-                      </div>
+                      {posts.length > 0 &&
+                        posts.map((post, index) => <BannerPostList key={index} {...post} />)}
                     </Link>
                   </SwiperSlide>
 

@@ -115,22 +115,40 @@ app.post(
 
     fs.renameSync(path, newPath);
 
-    const { title, author, image, content, category, date } = request.body;
+    const { token } = request.cookies;
 
-    const postDOc = await Post.create({
-      title,
-      author,
-      image,
-      content,
-      category,
-      date,
-      cover: newPath,
+    if (!token) {
+      return response.status(401).json({ error: "No token provided" });
+    }
+
+    jwt.verify(token, secret, async (err, info) => {
+      if (err) {
+        return response.status(403).json({ error: "Invalid token" });
+      }
+
+      // Get Post Doc
+      const { title, author, content, category, cover } = request.body;
+
+      const postDOc = await Post.create({
+        title,
+        author: info.id,
+        content,
+        category,
+        cover: newPath,
+      });
+
+      response.json({ message: "File uploaded successfully", postDOc });
     });
-
-    console.log(title);
-
-    response.json({ message: "File uploaded successfully", path: newPath });
   }
 );
+
+app.get("/api/post", async (request, response) => {
+  response.json(
+    await Post.find()
+      .populate("author", ["username"])
+      .sort({ createdAt: -1 })
+      .limit(20)
+  );
+});
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

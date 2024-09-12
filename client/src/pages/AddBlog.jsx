@@ -30,30 +30,18 @@ const AddBlog = () => {
     data.set("category", category);
     data.set("date", date);
 
- 
-
-
-
     const response = await fetch("http://localhost:4000/api/post", {
       method: "POST",
       body: data,
-      
+      credentials: 'include'
     });
 
-    
-
-    // const blogData = {
-    //   title,
-    //   author,
-    //   image,
-    //   content,
-    //   category,
-    //   date,
-    // };
-
-    // toast.success("Blog Added Successfully");
-
-    // retur?n navigate("/");
+    if (response.ok) {
+      toast.success("Blog Added Successfully");
+      navigate("/");
+    } else {
+      toast.error("Error adding blog. Please try again.");
+    }
   };
 
   let quillModules = {
